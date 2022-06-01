@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-app="myApp">
+    <div class="wrapper">
+        <h1>King of coffe</h1>
+    <form ng-controller="myCtrl">
+        <div >
+            <label class="form__label" for="toppings-list">Select your coffe</label>
+            <select ng-options="name for name in names" ng-model="select" ></select>
+        </div>
+        <br>
+        <br>
+        <div>
+            <label class="form__label" for="new-size">Chọn size:</label>
+            <input class="form__radio" ng-model="choose" name="radioSize" type="radio" value="M" /> M
+            <input class="form__radio" ng-model="choose" name="radioSize" type="radio" value="L" /> L
+            <input class="form__radio" ng-model="choose" name="radioSize" type="radio" value="XL" /> XL
+        </div>
+            <br/>
+
+        <p>Đơn giá: {{price}} </p>
+        <label class="form__label" for="new-quantity">Chọn số lượng:</label>
+        <input class="form__input" min="1" name="coffe-quantity" step="1" type="number" ng-model="quantity" >
+        <br>
+        <br>
+        <button class="form__btn" type="submit" ng-click="ok()">Order</button>
+
+    
+        <p>Thành tiền: ${{sum}}</p>
+        <p>VAT: ${{tax}}</p>
+        <p>Tổng thiệt hại: ${{total}}</p>
+
+
+        <div class="d-none" style="display: none">
+            {{change()}}
+        </div>
+        <div ng-switch on="select">
+            <div ng-switch-when="2"></div>
+            <div ng-switch-when="3"></div>
+            <div ng-switch-when="4"></div>
+          </div>
+        
+        
+          <div ng-switch on="choose">
+            <div ng-switch-when="M"></div>
+            <div ng-switch-when="L"></div>
+            <div ng-switch-when="XL"></div>
+          </div>
+    </form>
+    </div>
+    
+    <script>
+        var myApp = angular.module('myApp',[]);
+            myApp.controller('myCtrl', function($scope){
+            $scope.names = ['Menu','Đen truyền thống','Nâu đá', 'Bạc xỉu', 'Capuchino'];
+            $scope.select = $scope.names[0];
+            $scope.sizes = ['M', 'L', 'XL'];
+            $scope.choose = $scope.sizes[0];
+            $scope.price = 0;
+            $scope.sum = 0;
+            $scope.tax = 0;
+            $scope.total = 0;
+                
+            $scope.change = function(){
+                // console.log($scope.select, $scope.choose);
+                if($scope.choose == 'M'){
+                    switch($scope.select){
+                        case "Đen truyền thống": $scope.price = 25000;
+                        break;
+                        case "Nâu đá": $scope.price = 25000;
+                        break;
+                        case "Bạc xỉu": $scope.price = 30000;
+                        break;
+                        case "Capuchino": $scope.price = 35000;
+                        break;
+                        default: $scope.price = 0;
+                        break;
+                    }
+                } else if($scope.choose == 'L'){
+                    switch($scope.select){
+                        case "Đen truyền thống": $scope.price =30000;
+                        break;
+                        case "Nâu đá": $scope.price =30000;
+                        break;
+                        case "Bạc xỉu": $scope.price =35000;
+                        break;
+                        case "Capuchino": $scope.price =40000;
+                        break;
+                        default: $scope.price = 0;
+                        break;
+                    }
+                } else {
+                
+                    switch ($scope.select){
+                        case "Đen truyền thống": $scope.price = 35000;
+                        break;
+                        case "Nâu đá": $scope.price = 35000;
+                        break;
+                        case "Bạc xỉu": $scope.price = 40000;
+                        break;
+                        case "Capuchino": $scope.price = 45000;
+                        break;
+                        default: $scope.price = 0;
+                        break;
+                    }
+                }
+                return (Number($scope.quantity) * (Number($scope.price)));
+            }
+            $scope.ok = function(){
+                console.log("gbg")
+                $scope.sum = $scope.change();
+                $scope.tax = (Number($scope.sum)*0.1);
+                $scope.total = (Number($scope.sum) + Number($scope.tax))
+            }
+
+        });
+    </script>  
+</body>
+</html>
